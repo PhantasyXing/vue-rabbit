@@ -1,6 +1,6 @@
 <script setup>
   import {useCategoryStore} from '@/stores/category'
-  const categoryStoreList = useCategoryStore()
+  const categoryStore = useCategoryStore()
 </script>
 
 <template>
@@ -13,7 +13,7 @@
         <li class="home">
           <RouterLink to="/">首页</RouterLink>
         </li>
-        <li class="home" v-for="item in categoryStoreList.categoryList" :key="item.id">
+        <li class="home" v-for="item in categoryStore.categoryList" :key="item.id">
           <RouterLink to="/">{{item.name}}</RouterLink>
         </li>
       </ul>
