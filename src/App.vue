@@ -5,9 +5,16 @@
 <template>
   <!-- 一级路由出口 -->
   <router-view></router-view>
+  <div class="test">
+    我是使用了var.scss中的样式
+  </div>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
+  .test{
+    color: $xtxColor;
+  }
+
 header {
   line-height: 1.5;
   max-height: 100vh;
