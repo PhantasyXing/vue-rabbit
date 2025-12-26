@@ -1,8 +1,13 @@
 import httpInstance from '@/utils/http'
 
-export function getBannerAPI() {
+// 获取banner
+export function getBannerAPI(params = {}) {
+  const { distributionSite = '1' } = params
   return httpInstance({
-    url: 'home/banner'
+    url: 'home/banner',
+    params: {
+      distributionSite
+    }
   })
 }
 
@@ -18,6 +23,11 @@ export const findNewAPI = () => {
   })
 }
 
+/**
+ * @description: 获取人气推荐
+ * @param {*}
+ * @return {*}
+ */
 export const getHotAPI = () => {
   return httpInstance({
     url: '/home/hot'
