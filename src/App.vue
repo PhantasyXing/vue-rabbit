@@ -10,6 +10,7 @@
   </div>
 </template>
 
+
 <style scoped lang="scss">
   .test{
     color: $xtxColor;
