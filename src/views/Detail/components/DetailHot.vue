@@ -10,7 +10,7 @@ const props = defineProps({
   }
 })
 const TYPEMAP = {
-  1:'24小时热榜',
+  1:'2小时热榜',
   2:'周热榜'
 }
 const title = computed(()=> TYPEMAP[props.hotType])
