@@ -1,6 +1,9 @@
 <script setup>
 import { ref } from 'vue';
-
+import {getLoginAPI} from '@/apis/user'
+import { ElMessage } from 'element-plus'
+import 'element-plus/theme-chalk/el-message.css'
+import {useRouter} from 'vue-router'
 // 表单校验（账户名+密码）
 // 准备表单对象
 const userInfo = ref({
@@ -26,14 +29,20 @@ const rules = ref({
 
 // 获取form实例做同意校验
 const formRef = ref(null)
+const router = useRouter()
 const doLogin = ()=>{
-  formRef.value.validate( (valid) => {
+  const {account,password} = userInfo.value
+  formRef.value.validate(async (valid) => {
     console.log(valid)
     if(valid){
-      // TODO LOGIN
+      const res = await getLoginAPI({account,password})
+      console.log(res)
+      ElMessage({type:'success',message:'登录成功'})
+      router.replace({path:'/'})
     }
   })
 }
+
 
 
 // 1. 用户名和密码，通过简单的对象和规则对象
