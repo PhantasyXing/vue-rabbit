@@ -31,6 +31,7 @@ const rules = ref({
 
 
 const userStore = useUserStore()
+// console.log(userStore)
 // 获取form实例做同意校验
 const formRef = ref(null)
 const router = useRouter()
