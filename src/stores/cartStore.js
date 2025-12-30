@@ -37,9 +37,7 @@ export const useCartStore = defineStore('cart', () => {
   }
 
   // 全选框
-  const checkAll = (selected) => {
-    cartList.value.forEach(item => item.selected = selected)
-  }
+  const checkAll = (selected) => cartList.value.forEach(item => item.selected = selected)
 
   // 计算属性
   // count总数量
@@ -47,18 +45,25 @@ export const useCartStore = defineStore('cart', () => {
   // price总价
   const allPrice = computed(() => cartList.value.reduce((a, c) => a + c.count * c.price, 0))
 
+  // 选择总数
+  const selectedCount = computed(() => cartList.value.filter(item => item.selected).reduce((a, c) => a + c.count, 0))
+  // 选择总价
+  const selectedPrice = computed(() => cartList.value.filter(item => item.selected).reduce((a, c) => a + c.count * c.price, 0))
+
   // 是否全选
   const isAll = computed(() => cartList.value.every((item) => item.selected))
 
 
   return {
     cartList,
-    addCart,
-    delCart,
     allCount,
     allPrice,
-    changeCheck,
     isAll,
+    selectedCount,
+    selectedPrice,
+    addCart,
+    delCart,
+    changeCheck,
     checkAll
   }
 },
