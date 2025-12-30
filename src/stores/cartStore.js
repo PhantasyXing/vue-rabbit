@@ -29,18 +29,28 @@ export const useCartStore = defineStore('cart', () => {
 
   }
 
+  // 单选功能
+  const changeCheck = (skuId, selected) => {
+    // 通过skuId找到要修改那一项，然后把它的selected修改
+    const item = cartList.value.find((item) => item.skuId === skuId)
+    item.selected = selected
+  }
+
   // 计算属性
   // count总数量
   const allCount = computed(() => cartList.value.reduce((a, c) => a + c.count, 0))
   // price总价
   const allPrice = computed(() => cartList.value.reduce((a, c) => a + c.count * c.price, 0))
 
+
+
   return {
     cartList,
     addCart,
     delCart,
     allCount,
-    allPrice
+    allPrice,
+    changeCheck
   }
 },
   {

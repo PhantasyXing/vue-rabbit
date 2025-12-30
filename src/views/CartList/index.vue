@@ -1,7 +1,11 @@
 <script setup>
 import { useCartStore } from '@/stores/cartStore'
-const cartList = useCartStore()
+const cartStore = useCartStore()
 
+const changeCheck = (i,selected)=>{
+  console.log(i,selected)
+  cartStore.changeCheck(i.skuId,selected)
+}
 </script>
 
 <template>
@@ -23,9 +27,9 @@ const cartList = useCartStore()
           </thead>
           <!-- 商品列表 -->
           <tbody>
-            <tr v-for="i in cartList.cartList" :key="i.id">
+            <tr v-for="i in cartStore.cartList" :key="i.id">
               <td>
-                <el-checkbox />
+                <el-checkbox :model-value="i.selected" @change="(selected) => changeCheck(i,selected)"/>
               </td>
               <td>
                 <div class="goods">
@@ -56,7 +60,7 @@ const cartList = useCartStore()
                 </p>
               </td>
             </tr>
-            <tr v-if="cartList.cartList.length === 0">
+            <tr v-if="cartStore.cartList.length === 0">
               <td colspan="6">
                 <div class="cart-none">
                   <el-empty description="购物车列表为空">
