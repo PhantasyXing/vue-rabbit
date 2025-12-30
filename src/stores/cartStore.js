@@ -18,9 +18,22 @@ export const useCartStore = defineStore('cart', () => {
     }
   }
 
+  // 删除商品
+  const delCart = (skuId) => {
+    // splice
+    // filter
+    /* const index = cartList.value.findIndex((item) => skuId === item.skuId)
+    cartList.value.splice(index, 1) */
+
+    cartList.value = cartList.value.filter((item) => item.skuId !== skuId)
+
+  }
+
+
   return {
     cartList,
-    addCart
+    addCart,
+    delCart
   }
 },
   {
