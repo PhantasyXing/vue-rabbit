@@ -6,6 +6,10 @@ const changeCheck = (i,selected)=>{
   console.log(i,selected)
   cartStore.changeCheck(i.skuId,selected)
 }
+
+const checkAll = (selected) => {
+  cartStore.checkAll(selected)
+}
 </script>
 
 <template>
@@ -16,7 +20,7 @@ const changeCheck = (i,selected)=>{
           <thead>
             <tr>
               <th width="120">
-                <el-checkbox/>
+                <el-checkbox :model-value="cartStore.isAll" @change="checkAll"/>
               </th>
               <th width="400">商品信息</th>
               <th width="220">单价</th>
@@ -28,7 +32,7 @@ const changeCheck = (i,selected)=>{
           <!-- 商品列表 -->
           <tbody>
             <tr v-for="i in cartStore.cartList" :key="i.id">
-              <td>
+              <td>                
                 <el-checkbox :model-value="i.selected" @change="(selected) => changeCheck(i,selected)"/>
               </td>
               <td>
