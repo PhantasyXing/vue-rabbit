@@ -1,4 +1,7 @@
 <script setup>
+import { getUserOrder } from '@/apis/order'
+import { onMounted, ref } from 'vue';
+
 // tab列表
 const tabTypes = [
   { name: "all", label: "全部订单" },
@@ -10,7 +13,17 @@ const tabTypes = [
   { name: "cancel", label: "已取消" }
 ]
 // 订单列表
-const orderList = []
+const orderList = ref([])
+const params =  ref({
+  orderState:0,
+  page:1,
+  pageSize:2
+})
+const getOrderList = async () => {
+  const res = await getUserOrder(params.value)
+  orderList.value = res.result.items
+}
+onMounted(()=>getOrderList())
 
 </script>
 
@@ -94,7 +107,14 @@ const orderList = []
           </div>
           <!-- 分页 -->
           <div class="pagination-container">
-            <el-pagination background layout="prev, pager, next" />
+            <el-pagination 
+              v-model:current-page="params.page"
+              :page-size="params.pageSize"
+              :total="total"
+              background 
+              layout="prev, pager, next"
+              @current-change="getOrderList"
+            />
           </div>
         </div>
       </div>
