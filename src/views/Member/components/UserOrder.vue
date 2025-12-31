@@ -14,7 +14,7 @@ const tabTypes = [
 ]
 // 订单列表
 const orderList = ref([])
-// const total = ref(0)
+const total = ref(0)
 const params =  ref({
   orderState:0,
   page:1,
@@ -23,13 +23,19 @@ const params =  ref({
 const getOrderList = async () => {
   const res = await getUserOrder(params.value)
   orderList.value = res.result.items
-  // total.value = res.result.counts
+  total.value = res.result.counts
 }
 onMounted(()=>getOrderList())
 
 const tabChange = (type)=>{
   console.log(type);
   params.value.orderState = type
+  getOrderList()
+}
+
+const pageChange = (page) =>{
+  console.log(page)
+  params.value.page = page
   getOrderList()
 }
 
@@ -121,7 +127,7 @@ const tabChange = (type)=>{
               :total="total"
               background 
               layout="prev, pager, next"
-              @current-change="getOrderList"
+              @current-change="pageChange"
             />
           </div>
         </div>
