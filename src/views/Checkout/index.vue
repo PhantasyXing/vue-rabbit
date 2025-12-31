@@ -1,6 +1,10 @@
 <script setup>
-import { getCheckInfoAPI } from '@/apis/checkout';
+import { getCheckInfoAPI,createOrderAPI } from '@/apis/checkout';
 import { onMounted, ref } from 'vue';
+import { useRouter } from 'vue-router';
+import { useCartStore } from '@/stores/cartStore'
+const router = useRouter()
+const cartStore = useCartStore()
 const checkInfo = ref({})  // 订单对象
 const curAddress = ref({})  // 地址对象
 const getCheckInfo = async ()=>{
@@ -28,6 +32,30 @@ const confirm = () => {
   curAddress.value = activeAddress.value
   showDialog.value = false
   activeAddress.value = {}
+}
+
+const createOrder = async ()=>{
+  const res = await createOrderAPI({
+    deliveryTimeType:1,
+    payType:1,
+    payChannel:1,
+    buyerMessage:'',
+    goods: checkInfo.value.goods.map( item => {
+      return{
+        skuId:item.skuId,
+        count:item.count
+      }
+    }),
+    addressId:curAddress.value.id
+  })
+  const orderId = res.result.id
+  router.push({
+    path:'/pay',
+    query:{
+      id:orderId
+    }
+  })
+  cartStore.updateNewList()
 }
 
 </script>
@@ -124,7 +152,7 @@ const confirm = () => {
         </div>
         <!-- 提交订单 -->
         <div class="submit">
-          <el-button type="primary" size="large" >提交订单</el-button>
+          <el-button @click="createOrder" type="primary" size="large" >提交订单</el-button>
         </div>
       </div>
     </div>
@@ -132,7 +160,8 @@ const confirm = () => {
   <!-- 切换地址 -->
   <el-dialog v-model="showDialog" title="切换收货地址" width="30%" center>
     <div class="addressWrapper">
-      <div class="text item" :class="{active:activeAddress.id === item.id}" @click="switchAddress(item)" v-for="item in checkInfo.userAddresses"  :key="item.id">
+      <div class="text item" :class="{active:activeAddress.id === item.id}" 
+      @click="switchAddress(item)" v-for="item in checkInfo.userAddresses"  :key="item.id">
         <ul>
         <li><span>收<i />货<i />人：</span>{{ item.receiver }} </li>
         <li><span>联系方式：</span>{{ item.contact }}</li>
@@ -151,6 +180,8 @@ const confirm = () => {
 </template>
 
 <style scoped lang="scss">
+@use 'sass:color';
+
 .xtx-pay-checkout-page {
   margin-top: 20px;
 
@@ -352,7 +383,7 @@ const confirm = () => {
     &.active,
     &:hover {
       border-color: $xtxColor;
-      background: lighten($xtxColor, 50%);
+      background: color.adjust($xtxColor, $lightness: 50%);
     }
 
     >ul {
