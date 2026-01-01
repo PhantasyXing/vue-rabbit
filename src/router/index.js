@@ -58,9 +58,10 @@ const router = createRouter({
         {
           path: 'member',
           component: Menber,
+          redirect: 'member/user',
           children: [
             {
-              path: '',
+              path: 'user',
               component: UserInfo
             },
             {
